@@ -34,7 +34,8 @@ body {
     background: #FFFFFF;
     /* No explicit width/height/min-width/min-height on body, it fills the viewport */
     margin: 0;
-    padding: calc(env(safe-area-inset-top, 0px) + 8px) calc(env(safe-area-inset-bottom, 0px) + 8px);
+    padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
     font-family: 'Grand Central', serif;
     overflow: hidden; /* Ensures body doesn't scroll */
     display: flex;
@@ -127,7 +128,6 @@ body {
     background: #fff;
     padding-top: calc(env(safe-area-inset-top, 0px) + 8px);
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 8px);
-    overflow: hidden; /* Ensures content stays within bounds */
     min-height: 100vh;
 }
 

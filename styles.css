@@ -663,7 +663,8 @@ h3 {
   .save-date-container {
     width: 95vw;
     max-width: 400px;
-    height: auto;
+    height: 100dvh;
+    height: 100vh;
     min-height: 0;
     padding-bottom: 32px;
     overflow: visible !important;

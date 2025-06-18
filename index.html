@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save the Date</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="save-date-container">
+        <img src="images/title.png" alt="Save The Date" class="save-date-title" id="title-img">
+        <div class="save-date-secondary" id="subtext">
+            ON THE EVENING<br>
+            OF SEPTEMBER 6<sup>TH</sup>, 2025
+                    </div>
+        <div class="decor-row" id="decor-row">
+            <img src="images/decor1.png" alt="Decorative Square Left" class="decor decor-left">
+            <img src="images/decor2.png" alt="Decorative Square Right" class="decor decor-right">
+                </div>
+        <img src="images/church.png" alt="Church Illustration" class="church-bg" id="church-img">
+                    </div>
+    
+    <!-- RSVP Form -->
+    <div class="rsvp-form-container" id="rsvp-form">
+                    <form class="rsvp-form">
+            <div class="rsvp-form-content">
+                <div class="form-header">SEPTEMBER 6TH, 2025<br>SEOUL, KOREA</div>
+                <div class="form-subheader"><span class="subheader-names">Dasol Kim & Jaeyong Sung</span><br>@MAISON D'ITALIE,<span class="mobile-break"></span> 4PM RECEPTION | 5PM CEREMONY</div>
+                        <input type="text" placeholder="Full name" class="rsvp-input" required>
+                        <input type="email" placeholder="Email address" class="rsvp-input" required>
+                        <div class="attendance-options">
+                            <label class="attendance-option">
+                                <input type="radio" name="attendance" value="I'll be there!" required>
+                                <span class="option-text">I'll be there!</span>
+                            </label>
+                            <label class="attendance-option">
+                                <input type="radio" name="attendance" value="Sad to miss it" required>
+                                <span class="option-text">Sad to miss it</span>
+                            </label>
+                            <label class="attendance-option">
+                                <input type="radio" name="attendance" value="Not sure yet" required>
+                                <span class="option-text">Not sure yet</span>
+                            </label>
+                        </div>
+                        <div class="plusone-options">
+                            <label class="attendance-option">
+                                <input type="radio" name="plusone" value="Attending solo" required>
+                                <span class="option-text">Attending solo</span>
+                            </label>
+                    <label class="attendance-option plusone-input-container">
+                                <input type="radio" name="plusone" value="Bringing +1" required>
+                                <span class="option-text">Bringing +1</span>
+                        <input type="text" class="plusone-name" placeholder="Guest's name" style="display: none;">
+                            </label>
+                        </div>
+                        <button type="submit" class="submit-rsvp" disabled>
+                            <span class="button-text">Send RSVP</span>
+                            <span class="button-icon">→</span>
+                        </button>
+            </div>
+        </form>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const churchImg = document.getElementById('church-img');
+        const titleImg = document.getElementById('title-img');
+        const subtext = document.getElementById('subtext');
+        const decorRow = document.getElementById('decor-row');
+        const rsvpForm = document.getElementById('rsvp-form');
+        const form = document.querySelector('.rsvp-form');
+        
+        // Only proceed if we have the form
+        if (form) {
+            const submitButton = form.querySelector('.submit-rsvp');
+            const nameInput = form.querySelector('input[type="text"]');
+            const emailInput = form.querySelector('input[type="email"]');
+            const attendanceRadios = form.querySelectorAll('input[type="radio"][name="attendance"]');
+            const plusoneRadios = form.querySelectorAll('input[type="radio"][name="plusone"]');
+
+            // Handle +1 input transformation
+            const plusoneContainer = form.querySelector('.plusone-input-container');
+            const plusoneRadio = plusoneContainer?.querySelector('input[type="radio"]');
+            const plusoneText = plusoneContainer?.querySelector('.option-text');
+            const plusoneInput = plusoneContainer?.querySelector('.plusone-name');
+            const soloOption = form.querySelector('input[type="radio"][name="plusone"][value="Attending solo"]')?.parentElement;
+            const soloRadio = soloOption?.querySelector('input[type="radio"]');
+
+            // Get attendance options and plusone container
+            const plusoneOptionsContainer = form.querySelector('.plusone-options');
+
+            // Function to update the visual state of attendance options
+            function updatePlusOneVisualState() {
+                if (!soloOption || !plusoneContainer || !plusoneText || !plusoneInput || !soloRadio || !plusoneRadio) return;
+
+                soloOption.classList.remove('selected');
+                plusoneContainer.classList.remove('selected');
+
+                if (soloRadio.checked) {
+                    soloOption.classList.add('selected');
+                    plusoneText.textContent = 'Bringing +1';
+                    plusoneText.style.display = 'block';
+                    plusoneInput.style.display = 'none';
+                    plusoneInput.required = false;
+                    plusoneInput.value = '';
+                } else if (plusoneRadio.checked) {
+                    const hasContent = plusoneInput.value.trim() !== '';
+                    const isFocused = plusoneInput === document.activeElement;
+
+                    if (hasContent && !isFocused) {
+                        // Has content and not focused - show selected state with name
+                        plusoneContainer.classList.add('selected');
+                        plusoneText.textContent = 'with ' + plusoneInput.value.trim();
+                        plusoneText.style.display = 'block';
+                        plusoneInput.style.display = 'none';
+                        plusoneInput.required = true;
+                    } else if (isFocused) {
+                        // Currently focused - show input field, no selected state
+                        plusoneContainer.classList.remove('selected');
+                        plusoneText.style.display = 'none';
+                        plusoneInput.style.display = 'block';
+                        plusoneInput.required = true;
+                    } else {
+                        // No content and not focused - show default state
+                        plusoneContainer.classList.remove('selected');
+                        plusoneText.textContent = 'Bringing +1';
+                        plusoneText.style.display = 'block';
+                        plusoneInput.style.display = 'none';
+                        plusoneInput.required = true;
+                    }
+                } else {
+                    // No radio selected - show default state (but still clickable)
+                    plusoneText.textContent = 'Bringing +1';
+                    plusoneText.style.display = 'block';
+                    plusoneInput.style.display = 'none';
+                    plusoneInput.required = false;
+                    plusoneInput.value = '';
+                }
+            }
+
+            // Function to transform text to input field
+            function transformToInput() {
+                if (!plusoneText || !plusoneInput) return;
+                
+                // Hide the text and show the input, but don't add selected state yet
+                plusoneText.style.display = 'none';
+                plusoneInput.style.display = 'block';
+                plusoneInput.focus();
+                plusoneInput.required = true;
+                plusoneContainer.classList.remove('selected'); // Ensure no selected state when empty
+            }
+
+            // Function to transform input back to text
+            function transformToText() {
+                if (!plusoneText || !plusoneInput) return;
+                
+                const value = plusoneInput.value.trim();
+                if (value) {
+                    // Has content - show selected state with name
+                    plusoneText.textContent = 'with ' + value;
+                    plusoneText.style.display = 'block';
+                    plusoneInput.style.display = 'none';
+                    plusoneContainer.classList.add('selected');
+                } else {
+                    // No content - show default state
+                    plusoneText.textContent = 'Bringing +1';
+                    plusoneText.style.display = 'block';
+                    plusoneInput.style.display = 'none';
+                    plusoneContainer.classList.remove('selected');
+                }
+            }
+
+            // Function to manage plusone options disabled state
+            function managePlusOneOptionsState() {
+                if (!plusoneOptionsContainer) return;
+
+                const sadToMissItSelected = form.querySelector('input[type="radio"][name="attendance"][value="Sad to miss it"]')?.checked;
+
+                // Always reset plusone UI
+                if (plusoneText) plusoneText.textContent = 'Bringing +1';
+                if (plusoneText) plusoneText.style.display = 'block';
+                if (plusoneInput) plusoneInput.style.display = 'none';
+                if (plusoneContainer) plusoneContainer.classList.remove('selected');
+                if (soloOption) soloOption.classList.remove('selected');
+                if (plusoneRadio) plusoneRadio.checked = false;
+                if (soloRadio) soloRadio.checked = false;
+
+                if (sadToMissItSelected) {
+                    plusoneOptionsContainer.style.opacity = '0.5';
+                    if (plusoneRadio) plusoneRadio.disabled = true;
+                    if (soloRadio) soloRadio.disabled = true;
+                } else {
+                    plusoneOptionsContainer.style.opacity = '1';
+                    if (plusoneRadio) plusoneRadio.disabled = false;
+                    if (soloRadio) soloRadio.disabled = false;
+                }
+                checkFormValidity();
+            }
+
+            // Function to check if form is valid
+            function checkFormValidity() {
+                if (!submitButton || !nameInput || !emailInput) return;
+
+                const isNameValid = nameInput.value.trim() !== '';
+                const isEmailValid = emailInput.value.trim() !== '' && emailInput.value.includes('@');
+                const isAttendanceSelected = [...attendanceRadios].some(radio => radio.checked);
+                
+                let isPlusOneValid = false;
+                const sadToMissItSelected = form.querySelector('input[type="radio"][name="attendance"][value="Sad to miss it"]')?.checked;
+
+                if (sadToMissItSelected) {
+                    // If "Sad to miss it" is selected, plusone is automatically valid
+                    isPlusOneValid = true;
+                } else if (soloRadio?.checked) {
+                    // If "Attending solo" is selected, plusone is valid
+                    isPlusOneValid = true;
+                } else if (plusoneRadio?.checked && plusoneInput) {
+                    // If "Bringing +1" is selected, check if name is provided
+                    isPlusOneValid = plusoneInput.value.trim() !== '';
+                } else {
+                    // If no plusone option is selected, it's still valid (user can still click +1)
+                    isPlusOneValid = true;
+                }
+
+                submitButton.disabled = !(isNameValid && isEmailValid && isAttendanceSelected && isPlusOneValid);
+            }
+
+            // Add event listeners only if elements exist
+            if (plusoneRadio) {
+                plusoneRadio.addEventListener('change', function() {
+                    console.log('Plusone radio changed, checked:', this.checked, 'disabled:', this.disabled);
+                    if (this.checked) {
+                        transformToInput();
+                    }
+                    updatePlusOneVisualState();
+                    checkFormValidity();
+                });
+            }
+
+            if (soloRadio) {
+                soloRadio.addEventListener('change', function() {
+                    console.log('Solo radio changed, checked:', this.checked, 'disabled:', this.disabled);
+                    if (this.checked && plusoneInput) {
+                        plusoneInput.value = '';
+                    }
+                    updatePlusOneVisualState();
+                    checkFormValidity();
+                });
+            }
+
+            if (plusoneInput) {
+                plusoneInput.addEventListener('blur', function() {
+                    transformToText();
+                    checkFormValidity();
+                });
+
+                plusoneInput.addEventListener('focus', function() {
+                    if (plusoneRadio) {
+                        plusoneRadio.checked = true;
+                    }
+                    updatePlusOneVisualState();
+                    checkFormValidity();
+                });
+
+                plusoneInput.addEventListener('input', function() {
+                    // Don't call updatePlusOneVisualState here to avoid flickering
+                    // Only check form validity
+                    checkFormValidity();
+                });
+            }
+
+            // Add input event listeners to other form fields
+            [nameInput, emailInput, ...attendanceRadios].forEach(input => {
+                if (input) {
+                    input.addEventListener('input', checkFormValidity);
+                    input.addEventListener('change', checkFormValidity);
+                }
+            });
+
+            // Add change listeners to attendance radios
+            attendanceRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Remove .selected from all attendance options
+                    document.querySelectorAll('.attendance-option').forEach(option => {
+                        option.classList.remove('selected');
+                    });
+                    // Add .selected to the parent label of the checked radio
+                    if (this.checked) {
+                        this.closest('.attendance-option').classList.add('selected');
+                    }
+                    console.log('Attendance radio changed to:', this.value, 'plusoneRadio checked:', plusoneRadio?.checked);
+                    managePlusOneOptionsState();
+                });
+            });
+
+            // Initial setup
+            updatePlusOneVisualState();
+            managePlusOneOptionsState();
+            checkFormValidity();
+
+            // Handle form submission
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                if (submitButton && !submitButton.disabled) {
+                    // Disable submit button to prevent double submission
+                    submitButton.disabled = true;
+                    submitButton.querySelector('.button-text').textContent = 'Sending...';
+                    
+                    // Collect form data
+                    const name = nameInput.value.trim();
+                    const email = emailInput.value.trim();
+                    const attendance = [...attendanceRadios].find(radio => radio.checked)?.value || '';
+                    const plusOne = [...plusoneRadios].find(radio => radio.checked)?.value || '';
+                    const guestName = plusoneInput?.value?.trim() || '';
+                    
+                    // Create FormData for Google Form submission
+                    const formData = new FormData();
+                    formData.append('entry.674669569', name);
+                    formData.append('entry.914180830', email);
+                    formData.append('entry.1392724253', attendance);
+                    formData.append('entry.1222502439', plusOne);
+                    formData.append('entry.1666082828', guestName);
+                    
+                    try {
+                        // Submit to Google Form
+                        const response = await fetch('https://docs.google.com/forms/d/e/1FAIpQLSdHFSlWc6942Pf1Jm5Q6In12m341gNefQljvmOmbVoCTF53xg/formResponse', {
+                            method: 'POST',
+                            mode: 'no-cors', // Required for Google Forms
+                            body: formData
+                        });
+                        
+                        // Show success message
+                        alert('Thank you for your RSVP! We have received your response.');
+                        
+                        // Reset form
+                        form.reset();
+                        
+                        // Reset visual states
+                        document.querySelectorAll('.attendance-option').forEach(option => {
+                            option.classList.remove('selected');
+                        });
+                        
+                        // Close the popup
+                        if (churchImg) {
+                            churchImg.click();
+                        }
+                        
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        alert('There was an error submitting your RSVP. Please try again later.');
+                    } finally {
+                        // Re-enable submit button
+                        submitButton.disabled = false;
+                        submitButton.querySelector('.button-text').textContent = 'Send RSVP';
+                        checkFormValidity();
+                    }
+                }
+            });
+
+            // Prevent clicks inside the form from closing it
+            form.addEventListener('click', function(event) {
+                event.stopPropagation();
+            });
+
+            // Add click listener to container to close popup when clicking outside
+            const rsvpContainer = document.getElementById('rsvp-form');
+            if (rsvpContainer) {
+                rsvpContainer.addEventListener('click', function(event) {
+                    // Only close if clicking on the container itself, not on the form
+                    if (event.target === rsvpContainer) {
+                        // Close the popup by triggering the church image click
+                        if (churchImg) {
+                            churchImg.click();
+                        }
+                    }
+                });
+            }
+        }
+
+        // Handle church image click
+        if (churchImg) {
+            churchImg.addEventListener('click', function() {
+                const isZoomed = churchImg.classList.contains('zoomed-in');
+                const container = document.querySelector('.save-date-container');
+                
+                if (!isZoomed) {
+                    // Opening animation
+                    if (titleImg) titleImg.classList.add('hide');
+                    if (subtext) subtext.classList.add('hide');
+                    if (decorRow) decorRow.classList.add('hide');
+                    
+                    if (container) {
+                        container.style.overflow = 'visible';
+                        requestAnimationFrame(() => {
+                            churchImg.classList.add('zoomed-in');
+                            container.classList.add('zoomed-in');
+                        });
+                    }
+                    
+                    if (rsvpForm) {
+                        setTimeout(() => {
+                            rsvpForm.classList.add('show');
+                        }, 1000);
+                    }
+                } else {
+                    // Closing animation
+                    if (rsvpForm) rsvpForm.classList.remove('show');
+                    
+                    setTimeout(() => {
+                        if (container) {
+                            container.style.overflow = 'visible';
+                            requestAnimationFrame(() => {
+                                churchImg.classList.remove('zoomed-in');
+                                churchImg.classList.add('zooming-out');
+                                container.classList.remove('zoomed-in');
+                                
+                                setTimeout(() => {
+                                    if (titleImg) titleImg.classList.remove('hide');
+                                    if (subtext) subtext.classList.remove('hide');
+                                    if (decorRow) decorRow.classList.remove('hide');
+                                    if (churchImg) churchImg.classList.remove('zooming-out');
+                                    if (container) container.style.overflow = 'hidden';
+                                }, 1000);
+                            });
+                        }
+                    }, 300);
+                }
+            });
+        }
+      });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>

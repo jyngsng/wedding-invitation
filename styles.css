@@ -594,21 +594,19 @@ h3 {
 }
 
 .church-bg {
-    position: relative; /* Changed to relative to be a flex item */
-    margin-top: auto; /* Pushes it to the bottom within flex container */
-    /* Removed: bottom, left, transform: translateX(-50%) as it's now a flex item */
+    position: relative;
+    margin-top: auto;
     width: 100%;
     height: auto;
     z-index: 0;
     user-select: none;
-    transform-origin: center 89%; /* 89% down from top */
-    transform: scale(1); /* Keep for zoom animation baseline */
-    will-change: transform; /* Add for smoother animations */
-    transition: transform 1s ease-in-out; /* Match animation duration */
+    transform-origin: center 89%;
+    transform: scale(1);
+    will-change: transform;
+    transition: transform 1s ease-in-out;
     display: block;
     margin: 0 auto;
-    max-width: 100%;
-    /* Add a little margin to bottom to ensure it's not flush */
+    max-width: 90%;
     margin-bottom: 12px;
 }
 

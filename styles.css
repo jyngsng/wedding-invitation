@@ -628,8 +628,8 @@ h3 {
 }
 
 .save-date-container.zoomed-in {
-    /* Adjustments for when the container is zoomed in - ensure no additional scaling conflicts */
-    overflow: hidden; /* Keep this to contain the zoomed image within the container */
+    /* Allow the zoomed image to overflow the container */
+    overflow: visible;
 }
 
 .plusone-options {

@@ -419,7 +419,10 @@
                                     if (titleImg) titleImg.classList.remove('hide');
                                     if (subtext) subtext.classList.remove('hide');
                                     if (decorRow) decorRow.classList.remove('hide');
-                                    if (churchImg) churchImg.classList.remove('zooming-out');
+                                    if (churchImg) {
+                                        churchImg.classList.remove('zooming-out');
+                                        churchImg.classList.remove('zoomed-in'); // Remove zoomed-in after animation
+                                    }
                                     if (container) container.style.overflow = 'hidden';
                                     document.body.style.overflow = 'hidden'; // Restore body overflow
                                 }, 1000);

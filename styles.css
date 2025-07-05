@@ -619,8 +619,17 @@ h3 {
 }
 
 .church-bg.zoomed-in {
+    position: fixed !important;
+    left: 0;
+    top: 0;
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    z-index: 9999;
     animation: zoomIn 1s forwards;
-    pointer-events: none; /* Disable clicks when zoomed */
+    pointer-events: none;
 }
 
 .church-bg.zooming-out {

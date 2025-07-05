@@ -385,6 +385,7 @@
                 
                 if (!isZoomed) {
                     // Opening animation
+                    document.body.style.overflow = 'visible'; // Allow body to overflow
                     if (titleImg) titleImg.classList.add('hide');
                     if (subtext) subtext.classList.add('hide');
                     if (decorRow) decorRow.classList.add('hide');
@@ -420,6 +421,7 @@
                                     if (decorRow) decorRow.classList.remove('hide');
                                     if (churchImg) churchImg.classList.remove('zooming-out');
                                     if (container) container.style.overflow = 'hidden';
+                                    document.body.style.overflow = 'hidden'; // Restore body overflow
                                 }, 1000);
                             });
                         }
